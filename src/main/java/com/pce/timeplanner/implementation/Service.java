@@ -19,6 +19,7 @@ public class Service {
     String nom;
     double tauxActivite;
     double heures;
+    @Enumerated(EnumType.STRING)
     List<Jours> joursActifs = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_utilisateur")

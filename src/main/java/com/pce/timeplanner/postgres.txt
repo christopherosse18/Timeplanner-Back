@@ -15,3 +15,8 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL81Dialec
 
 spring.jpa.properties.hibernate.format_sql=true
 spring.sql.init.mode=always
+
+
+
+INSERT INTO timeplanner.service (id_service, heures, jours_actifs, nom, taux_activite, id_utilisateur) VALUES (1, 8, null, 'Customer Services', 0.5, 1)
+update timeplanner.service set jours_actifs = array['mercredi', 'jeudi', 'vendredi'] where id_service = 1

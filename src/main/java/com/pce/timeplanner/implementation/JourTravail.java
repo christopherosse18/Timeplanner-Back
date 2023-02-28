@@ -13,9 +13,11 @@ public class JourTravail {
     @GenericGenerator(name = "native",strategy = "native")
     @Column(name = "id_jourtravail")
     private int idJourTravail;
+    @Enumerated(EnumType.STRING)
     Jours jours;
     double duree;
     double tempsRealise;
+    @Enumerated(EnumType.STRING)
     TypeSaisie typeSaisie;
     float dureeSaisie;
 

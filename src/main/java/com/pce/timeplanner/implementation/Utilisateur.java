@@ -26,6 +26,9 @@ public class Utilisateur extends Person {
     @OneToMany(mappedBy = "utilisateur", fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST,targetEntity = Service.class)
     private Set<Service> service;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, targetEntity = Temps.class)
+    @JoinColumn(name = "id_temps")
+    private Temps temps;
 
 
 }
