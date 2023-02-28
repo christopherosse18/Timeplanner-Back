@@ -1,22 +1,29 @@
-docker run -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres --name timeplanner -d -p 5432:5432 postgres
-docker run --name timeplanner -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 5432:5432
-
-
-docker run --name timeplanner -p 5432:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgresPW -e POSTGRES_DB=postgresDB -d postgres
-
-
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL81Dialect
-
-
-
+--- A remettre pour l'insert avec data.sql
 spring.jpa.properties.hibernate.format_sql=true
 spring.sql.init.mode=always
 
 
-
+--- Insert dans array Postgres
 INSERT INTO timeplanner.service (id_service, heures, jours_actifs, nom, taux_activite, id_utilisateur) VALUES (1, 8, null, 'Customer Services', 0.5, 1)
 update timeplanner.service set jours_actifs = array['mercredi', 'jeudi', 'vendredi'] where id_service = 1
+
+
+--- Docker
+docker run --name timeplanner -p 5432:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgresPW -e POSTGRES_DB=postgresDB -d postgres
+d7c252ce497efaa453419faa1cafd7c5b45806f46964646284a438a3b924fd49
+
+C:\Users\Kristauf>docker exec myPostgresDb env
+Error: No such container: myPostgresDb
+
+C:\Users\Kristauf>docker exec timeplanner env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/15/bin
+HOSTNAME=d7c252ce497e
+POSTGRES_PASSWORD=postgresPW
+POSTGRES_DB=postgresDB
+POSTGRES_USER=postgresUser
+GOSU_VERSION=1.16
+LANG=en_US.utf8
+PG_MAJOR=15
+PG_VERSION=15.2-1.pgdg110+1
+PGDATA=/var/lib/postgresql/data
+HOME=/root
