@@ -1,10 +1,7 @@
 package com.pce.timeplanner;
 
-import com.pce.timeplanner.datasource.DataSource;
-import com.pce.timeplanner.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootApplication
 public class TimeplannerApplication {

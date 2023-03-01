@@ -1,7 +1,10 @@
 package com.pce.timeplanner.implementation;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
@@ -22,7 +25,8 @@ public class JourTravail {
     float dureeSaisie;
 
     int annee;
+    /*@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_semainetravail")
-    SemaineTravail semaineTravail;
+    SemaineTravail semaineTravail;*/
 }

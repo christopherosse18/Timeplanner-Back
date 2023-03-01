@@ -1,10 +1,14 @@
 package com.pce.timeplanner.implementation;
 
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.catalina.User;
 import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
@@ -17,10 +21,12 @@ public class Temps {
     @GenericGenerator(name = "native",strategy = "native")
     @Column(name = "id_temps")
     private int idTemps;
-    @OneToMany(mappedBy = "temps", fetch = FetchType.EAGER,
+    @OneToMany(/*mappedBy = "temps",*/ fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,targetEntity = SemaineTravail.class)
+    @JoinColumn(name = "id_temps")
     Set<SemaineTravail> semaineTravail;
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, targetEntity = Utilisateur.class)
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST, targetEntity = Utilisateur.class)
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 

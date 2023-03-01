@@ -1,6 +1,6 @@
 package com.pce.timeplanner.implementation;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

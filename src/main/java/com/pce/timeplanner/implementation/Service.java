@@ -1,10 +1,16 @@
 package com.pce.timeplanner.implementation;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -19,9 +25,11 @@ public class Service {
     String nom;
     double tauxActivite;
     double heures;
-    @Enumerated(EnumType.STRING)
+    /*@ElementCollection(targetClass = Jours.class)*/
+    @Enumerated(value= EnumType.STRING)
     List<Jours> joursActifs = new ArrayList<>();
+   /* @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_utilisateur")
-    Utilisateur utilisateur;
+    Utilisateur utilisateur;*/
 }

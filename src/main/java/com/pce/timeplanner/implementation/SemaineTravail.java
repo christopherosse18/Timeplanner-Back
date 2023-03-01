@@ -1,7 +1,10 @@
 package com.pce.timeplanner.implementation;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
@@ -18,14 +21,17 @@ public class SemaineTravail {
     @Column(name = "id_semainetravail")
     private int idSemaineTravail;
     int numSemaine;
-    @OneToMany(mappedBy = "semaineTravail", fetch = FetchType.EAGER,
+    @JsonManagedReference
+    @OneToMany(/*mappedBy = "semaineTravail",*/ fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,targetEntity = JourTravail.class)
+    @JoinColumn(name = "id_semainetravail")
     Set<JourTravail> jours;
     float heuresRealisees;
     float heuresDues;
 
+    /*@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_temps")
-    private Temps temps;
+    private Temps temps;*/
 
 }
