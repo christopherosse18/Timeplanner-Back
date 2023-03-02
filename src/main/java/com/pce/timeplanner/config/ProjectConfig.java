@@ -14,13 +14,13 @@ public class ProjectConfig {
         user.setNom("Rossé");
         user.setPrenom("Alexandra");
         user.setUsername("arosse");
-        user.setService(service());
+        user.setDepartement(service());
         return user;
     }
 
     @Bean
-    Service service(){
-        var service = new Service();
+    Departement service(){
+        var service = new Departement();
         var jours = new ArrayList<Jours>();
         jours.add(Jours.mercredi);
         jours.add(Jours.jeudi);

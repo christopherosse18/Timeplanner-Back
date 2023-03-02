@@ -4,15 +4,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name="jourtravail")
 public class JourTravail {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_jourtravail")
-    private int idJourTravail;
+    private UUID idJourTravail;
     @Enumerated(EnumType.STRING)
     Jours jours;
     double duree;

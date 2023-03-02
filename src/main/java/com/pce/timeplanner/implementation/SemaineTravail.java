@@ -6,16 +6,16 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @Entity
 @Table(name="semainetravail")
 public class SemaineTravail {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_semainetravail")
-    private int idSemaineTravail;
+    private UUID idSemaineTravail;
     int numSemaine;
     @JsonManagedReference
     @OneToMany(/*mappedBy = "semaineTravail",*/ fetch = FetchType.LAZY,

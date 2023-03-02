@@ -4,19 +4,22 @@ package com.pce.timeplanner.implementation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
+import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="temps")
 public class Temps {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_temps")
-    private int idTemps;
+    private UUID idTemps;
     @OneToMany(/*mappedBy = "temps",*/ fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,targetEntity = SemaineTravail.class)
     @JoinColumn(name = "id_temps")

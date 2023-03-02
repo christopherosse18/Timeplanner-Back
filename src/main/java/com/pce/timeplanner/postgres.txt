@@ -4,8 +4,8 @@ spring.sql.init.mode=always
 
 
 --- Insert dans array Postgres
-INSERT INTO timeplanner.service (id_service, heures, jours_actifs, nom, taux_activite, id_utilisateur) VALUES (1, 8, null, 'Customer Services', 0.5, 1)
-update timeplanner.service set jours_actifs = array['mercredi', 'jeudi', 'vendredi'] where id_service = 1
+INSERT INTO timeplanner.departement (id_service, heures, jours_actifs, nom, taux_activite, id_utilisateur) VALUES (1, 8, null, 'Customer Services', 0.5, 1)
+update timeplanner.departement set jours_actifs = array['mercredi', 'jeudi', 'vendredi'] where id_service = 1
 
 
 --- Docker
