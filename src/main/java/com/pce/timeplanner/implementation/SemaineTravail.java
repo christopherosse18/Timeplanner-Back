@@ -1,6 +1,7 @@
 package com.pce.timeplanner.implementation;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.pce.timeplanner.repository.JourTravailRepository;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
@@ -13,7 +14,9 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="semainetravail")
+@Table(name="semainetravail", uniqueConstraints={
+        @UniqueConstraint(columnNames = {"id_temps", "numSemaine"})
+})
 public class SemaineTravail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,7 +26,7 @@ public class SemaineTravail {
     int numSemaine;
     @JsonManagedReference
     @OneToMany(/*mappedBy = "semaineTravail",*/ fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,targetEntity = JourTravail.class)
+            cascade = CascadeType.MERGE,targetEntity = JourTravail.class)
     @JoinColumn(name = "id_semainetravail")
     Set<JourTravail> joursTravail;
     float heuresRealisees;

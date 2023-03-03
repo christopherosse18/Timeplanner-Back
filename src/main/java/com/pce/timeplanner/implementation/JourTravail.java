@@ -2,6 +2,8 @@ package com.pce.timeplanner.implementation;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.UUID;
 public class JourTravail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @NotFound(action = NotFoundAction.IGNORE)
     @Column(name = "id_jourtravail")
     private UUID idJourTravail;
     LocalDate date;
@@ -23,6 +26,8 @@ public class JourTravail {
             cascade = CascadeType.MERGE,targetEntity = Saisie.class)
     @JoinColumn(name = "id_jourtravail")
     Set<Saisie> saisies;
+
+
 
     /*@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

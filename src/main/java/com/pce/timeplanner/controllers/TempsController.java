@@ -6,10 +6,12 @@ import com.pce.timeplanner.implementation.Utilisateur;
 import com.pce.timeplanner.repository.SemaineTravailRepository;
 import com.pce.timeplanner.repository.TempsRepository;
 import com.pce.timeplanner.repository.UtilisateurRepository;
+import com.pce.timeplanner.services.JourTravailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -26,12 +28,16 @@ public class TempsController {
     @Autowired
     TempsRepository tempsRepository;
     @PostMapping("/createEmptySemaine")
-    public void createEmptySemaine(@RequestParam String username){
+    public void createEmptySemaine(@RequestParam String username,
+                                   @RequestParam String date){
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
         SemaineTravail semaineTravail = new SemaineTravail();
         semaineTravail.setIdSemaineTravail(UUID.randomUUID());
         semaineTravail.setNumSemaine(SemaineTravail.getCurrentWeek());
-        Set<JourTravail> jours = new HashSet<>();
+        LocalDate localDate = LocalDate.parse(date);
+        //Créé 7 jours
+        Set<JourTravail> jours = JourTravailService
+                .createSevenDaysFromDate(localDate, utilisateur);
         semaineTravail.setJoursTravail(jours);
         semaineTravail.setHeuresRealisees(0);
         semaineTravail.setHeuresDues(40);
