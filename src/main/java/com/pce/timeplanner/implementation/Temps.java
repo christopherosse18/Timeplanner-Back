@@ -19,7 +19,7 @@ public class Temps {
     @Column(name = "id_temps")
     private UUID idTemps;
     @OneToMany(/*mappedBy = "temps",*/ fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,targetEntity = SemaineTravail.class)
+            cascade = CascadeType.MERGE,targetEntity = SemaineTravail.class)
     @JoinColumn(name = "id_temps")
     Set<SemaineTravail> semaineTravail;
     @JsonBackReference

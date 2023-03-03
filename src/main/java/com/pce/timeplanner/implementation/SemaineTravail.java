@@ -3,6 +3,8 @@ package com.pce.timeplanner.implementation;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class SemaineTravail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @NotFound(action = NotFoundAction.IGNORE)
     @Column(name = "id_semainetravail")
     private UUID idSemaineTravail;
     int numSemaine;
