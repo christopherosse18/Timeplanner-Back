@@ -1,11 +1,14 @@
 package com.pce.timeplanner.implementation;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -23,23 +26,17 @@ public class Departement {
     @Column(name = "id_departement")
     private UUID idDepartement;
     String nom;
-    double tauxActivite;
-    double heures;
     /*@ElementCollection(targetClass = Jours.class)*/
-    @Enumerated(value= EnumType.STRING)
-    List<Jours> joursActifs;
-
-    public Departement(){};
-    public Departement(UUID idDepartement, String nom, double tauxActivite, double heures, List<Jours> joursActifs) {
-        this.idDepartement = idDepartement;
-        this.nom = nom;
-        this.tauxActivite = tauxActivite;
-        this.heures = heures;
-        this.joursActifs = joursActifs;
-    }
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.MERGE,targetEntity = ContratJour.class)
+    @JoinColumn(name = "id_departement")
+    List<ContratJour> contratJours;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JsonBackReference
     @JoinColumn(name = "id_utilisateur", referencedColumnName = "id_utilisateur", nullable = true)
     private Utilisateur utilisateur;
+
+
 }

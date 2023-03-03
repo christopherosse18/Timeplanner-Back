@@ -3,6 +3,8 @@ package com.pce.timeplanner.implementation;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -13,15 +15,15 @@ public class JourTravail {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_jourtravail")
     private UUID idJourTravail;
-    @Enumerated(EnumType.STRING)
-    Jours jours;
+    LocalDate date;
     double duree;
     double tempsRealise;
-    @Enumerated(EnumType.STRING)
-    TypeSaisie typeSaisie;
-    float dureeSaisie;
 
-    int annee;
+    @OneToMany(/*mappedBy = "temps",*/ fetch = FetchType.LAZY,
+            cascade = CascadeType.MERGE,targetEntity = Saisie.class)
+    @JoinColumn(name = "id_jourtravail")
+    Set<Saisie> saisies;
+
     /*@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_semainetravail")

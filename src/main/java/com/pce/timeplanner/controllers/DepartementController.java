@@ -1,5 +1,6 @@
 package com.pce.timeplanner.controllers;
 
+import com.pce.timeplanner.implementation.ContratJour;
 import com.pce.timeplanner.implementation.Departement;
 import com.pce.timeplanner.implementation.Jours;
 import com.pce.timeplanner.implementation.Utilisateur;
@@ -10,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -35,15 +35,25 @@ public class DepartementController {
 
     @PostMapping("/createNewDepartement")
     @Transactional
-    public void createEmptyService(@RequestParam String username,
-                                   @RequestParam List<Jours> jours,
-                                   @RequestParam double heures,
-                                   @RequestParam double tauxActivite,
+    public void createNewDepartement(@RequestParam String username,
+                                   @RequestParam List<String> jours,
+                                   @RequestParam List<Double> durees,
                                    @RequestParam String nom){
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
 
-        Departement departement = new Departement(UUID.randomUUID(),
-                nom, tauxActivite, heures, jours);
+        Departement departement = new Departement();
+        departement.setIdDepartement(UUID.randomUUID());
+        departement.setNom(nom);
+        //Création d'une map pour la journée
+        List<ContratJour> contratJours = new ArrayList<>();
+        for (int i = 0; i < jours.size(); i++) {
+            ContratJour contratJour = new ContratJour();
+            contratJour.setIdContratJour(UUID.randomUUID());
+            contratJour.setJour(jours.get(i));
+            contratJour.setDuree(durees.get(i));
+            contratJours.add(contratJour);
+        }
+        departement.setContratJours(contratJours);
         departement.setUtilisateur(utilisateur);
         departementRepository.save(departement);
     }

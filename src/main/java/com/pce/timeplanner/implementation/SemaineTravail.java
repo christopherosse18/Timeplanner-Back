@@ -32,10 +32,4 @@ public class SemaineTravail {
     static public int getCurrentWeek(){
         return LocalDate.now().get(ChronoField.ALIGNED_WEEK_OF_YEAR);
     }
-
-    /*@JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "id_temps")
-    private Temps temps;*/
-
 }
