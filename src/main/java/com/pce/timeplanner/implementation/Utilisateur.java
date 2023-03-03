@@ -4,12 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +29,7 @@ public class Utilisateur extends Person {
     @OneToMany(mappedBy = "utilisateur", cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Departement> departements;
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, targetEntity = Temps.class)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE, targetEntity = Temps.class)
     @JoinColumn(name = "id_temps")
     private Temps temps;
 

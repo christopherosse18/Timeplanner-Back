@@ -1,15 +1,11 @@
 package com.pce.timeplanner.controllers;
 
-import com.pce.timeplanner.implementation.Departement;
-import com.pce.timeplanner.implementation.Jours;
+import com.pce.timeplanner.implementation.Temps;
 import com.pce.timeplanner.implementation.Utilisateur;
-import com.pce.timeplanner.repository.DepartementRepository;
+import com.pce.timeplanner.repository.TempsRepository;
 import com.pce.timeplanner.repository.UtilisateurRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +21,8 @@ public class UtilisateurController {
     @Autowired
     UtilisateurRepository utilisateurRepository;
     @Autowired
+    TempsRepository tempsRepository;
+    @Autowired
     private EntityManager entityManager;
     @GetMapping("/getAllUsersByName")
     public List<Utilisateur> getAllUsersByName(@RequestParam String name){
@@ -37,6 +35,18 @@ public class UtilisateurController {
     @GetMapping("/getUserById")
     public Optional<Utilisateur> getUtilisateur(@RequestParam int id){
         return utilisateurRepository.findById(id);
+    }
+
+    @PostMapping("/createNewTemps")
+    public void createNewTemps(@RequestParam String username){
+        Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
+
+        Temps temps = new Temps();
+        temps.setUtilisateur(utilisateur);
+        temps.setIdTemps(UUID.randomUUID());
+        utilisateur.setTemps(temps);
+        utilisateurRepository.save(utilisateur);
+
     }
 
 

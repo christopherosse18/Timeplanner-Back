@@ -3,10 +3,8 @@ package com.pce.timeplanner.implementation;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
 import java.util.UUID;

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,21 +40,12 @@ public class DepartementController {
                                    @RequestParam double heures,
                                    @RequestParam double tauxActivite,
                                    @RequestParam String nom){
-        /*List<Departement> services = new ArrayList<>();*/
-
-        /*utilisateurs.add(utilisateurRepository.findByUsername(username));
-        System.out.println(utilisateurs);*/
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
 
         Departement departement = new Departement(UUID.randomUUID(),
                 nom, tauxActivite, heures, jours);
         departement.setUtilisateur(utilisateur);
         departementRepository.save(departement);
-
-        /*utilisateurRepository.persist(newUser);*/
-       /* entityManager.persist(saveUser);
-        utilisateurRepository.findByUsername(username).setDepartement();
-        utilisateurRepository.*/
     }
 
 }
