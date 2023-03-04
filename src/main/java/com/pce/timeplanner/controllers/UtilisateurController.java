@@ -5,6 +5,7 @@ import com.pce.timeplanner.implementation.Utilisateur;
 import com.pce.timeplanner.repository.TempsRepository;
 import com.pce.timeplanner.repository.UtilisateurRepository;
 import jakarta.persistence.EntityManager;
+import jdk.jshell.execution.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,13 @@ public class UtilisateurController {
     }
     @CrossOrigin
     @PostMapping("/userExist")
-    public String userExist(@RequestParam String username){
-        if (utilisateurRepository.findByUsername(username) != null){
+    public Utilisateur userExist(@RequestParam String username){
+        /*if (utilisateurRepository.findByUsername(username) != null){
             return "YAY !";
         } else {
             return "NEIGGGHHHH";
-        }
+        }*/
+        return utilisateurRepository.findByUsername(username);
     }
     @GetMapping("/getAllUsers")
     public List<Utilisateur> getAllUtilisateurs(){
