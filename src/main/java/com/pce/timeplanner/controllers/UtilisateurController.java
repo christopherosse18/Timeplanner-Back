@@ -28,6 +28,15 @@ public class UtilisateurController {
     public List<Utilisateur> getAllUsersByName(@RequestParam String name){
         return utilisateurRepository.findAllByNom(name);
     }
+    @CrossOrigin
+    @PostMapping("/userExist")
+    public String userExist(@RequestParam String username){
+        if (utilisateurRepository.findByUsername(username) != null){
+            return "YAY !";
+        } else {
+            return "NEIGGGHHHH";
+        }
+    }
     @GetMapping("/getAllUsers")
     public List<Utilisateur> getAllUtilisateurs(){
         return utilisateurRepository.findAll();

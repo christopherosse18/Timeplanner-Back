@@ -14,4 +14,6 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
 
     Utilisateur findByUsername(String username);
 
+
+
 }
