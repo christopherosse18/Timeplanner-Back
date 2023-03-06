@@ -4,6 +4,7 @@ import com.pce.timeplanner.implementation.JourTravail;
 import com.pce.timeplanner.implementation.Saisie;
 import com.pce.timeplanner.implementation.TypeSaisie;
 import com.pce.timeplanner.repository.JourTravailRepository;
+import com.pce.timeplanner.repository.SaisieRepository;
 import com.pce.timeplanner.repository.SemaineTravailRepository;
 import com.pce.timeplanner.repository.UtilisateurRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,22 +23,33 @@ import java.util.UUID;
 public class JourTravailController {
     @Autowired
     JourTravailRepository jourTravailRepository;
+    @Autowired
+    SaisieRepository saisieRepository;
 
     @PostMapping(path = "/{username}/{semaine}/addSaisie")
     public UUID addSaisie(@PathVariable("username") String username,
                           @PathVariable("semaine") int semaine,
                           @RequestParam String idJour,
                           @RequestParam TypeSaisie typeSaisie,
-                          @RequestParam(required = false) LocalTime debut,
-                          @RequestParam(required = false) boolean debutNow,
-                          @RequestParam(required = false) LocalTime fin,
-                          @RequestParam(required = false) boolean finNow
+                          @RequestParam LocalTime debut,
+                          @RequestParam LocalTime fin,
+                          @RequestParam(required = false) String idSaisie
                           /*@RequestBody Saisie saisieFront*/){
-
         JourTravail jourTravail = jourTravailRepository.getJourTravailByIdJourTravail(UUID.fromString(idJour));
         Saisie saisie = new Saisie();
-        saisie.setIdSaisie(UUID.randomUUID());
-        saisie.setTypeSaisie(typeSaisie);
+        if (idSaisie != null || idSaisie != ""){
+            saisie = saisieRepository.findByIdSaisie(UUID.fromString(idSaisie));
+            saisie.setTypeSaisie(typeSaisie);
+            saisie.setHeureDebut(debut);
+            saisie.setHeureFin(fin);
+        } else {
+            saisie.setIdSaisie(UUID.randomUUID());
+            saisie.setTypeSaisie(typeSaisie);
+            saisie.setHeureDebut(debut);
+            saisie.setHeureFin(fin);
+            jourTravail.getSaisies().add(saisie);
+        }
+
        /* if (debutNow){
             saisie.setHeureDebut(LocalTime.now());
         } else {
@@ -48,9 +60,7 @@ public class JourTravailController {
         } else {
             saisie.setHeureFin(fin);
         }*/
-        saisie.setHeureDebut(debut);
-        saisie.setHeureFin(fin);
-        jourTravail.getSaisies().add(saisie);
+
         jourTravailRepository.save(jourTravail);
         return saisie.getIdSaisie();
     }
