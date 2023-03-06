@@ -48,16 +48,17 @@ public class UtilisateurController {
         return utilisateurRepository.findById(id);
     }
 
-    @PostMapping("/createNewTemps")
-    public void createNewTemps(@RequestParam String username){
+    @GetMapping("/existTemps")
+    public Utilisateur createNewTemps(@RequestParam String username){
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
-
-        Temps temps = new Temps();
-        temps.setUtilisateur(utilisateur);
-        temps.setIdTemps(UUID.randomUUID());
-        utilisateur.setTemps(temps);
-        utilisateurRepository.save(utilisateur);
-
+        if (utilisateur.getTemps() == null){
+            Temps temps = new Temps();
+            temps.setUtilisateur(utilisateur);
+            temps.setIdTemps(UUID.randomUUID());
+            utilisateur.setTemps(temps);
+            utilisateurRepository.save(utilisateur);
+        }
+        return utilisateur;
     }
 
 

@@ -38,6 +38,7 @@ public class DepartementController {
     public void createNewDepartement(@RequestParam String username,
                                    @RequestParam List<String> jours,
                                    @RequestParam List<Double> durees,
+                                   @RequestParam List<Boolean> conge,
                                    @RequestParam String nom){
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
 
@@ -51,6 +52,7 @@ public class DepartementController {
             contratJour.setIdContratJour(UUID.randomUUID());
             contratJour.setJour(jours.get(i));
             contratJour.setDuree(durees.get(i));
+            contratJour.setConge(conge.get(i));
             contratJours.add(contratJour);
         }
         departement.setContratJours(contratJours);

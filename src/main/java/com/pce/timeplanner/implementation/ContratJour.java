@@ -1,6 +1,8 @@
 package com.pce.timeplanner.implementation;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NotFound;
@@ -20,5 +22,7 @@ public class ContratJour {
     private UUID idContratJour;
 
     private String jour;
+    @Nullable
     private double duree;
+    private boolean conge;
 }
