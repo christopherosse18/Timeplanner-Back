@@ -27,17 +27,17 @@ public class JourTravailController {
     public UUID addSaisie(@PathVariable("username") String username,
                           @PathVariable("semaine") int semaine,
                           @RequestParam String idJour,
-                          /*@RequestParam TypeSaisie typeSaisie,
+                          @RequestParam TypeSaisie typeSaisie,
                           @RequestParam(required = false) LocalTime debut,
                           @RequestParam(required = false) boolean debutNow,
                           @RequestParam(required = false) LocalTime fin,
-                          @RequestParam(required = false) boolean finNow*/
-                          @RequestParam Saisie saisieFront){
+                          @RequestParam(required = false) boolean finNow
+                          /*@RequestBody Saisie saisieFront*/){
 
         JourTravail jourTravail = jourTravailRepository.getJourTravailByIdJourTravail(UUID.fromString(idJour));
         Saisie saisie = new Saisie();
         saisie.setIdSaisie(UUID.randomUUID());
-        saisie.setTypeSaisie(saisieFront.getTypeSaisie());
+        saisie.setTypeSaisie(typeSaisie);
        /* if (debutNow){
             saisie.setHeureDebut(LocalTime.now());
         } else {
@@ -48,8 +48,8 @@ public class JourTravailController {
         } else {
             saisie.setHeureFin(fin);
         }*/
-        saisie.setHeureDebut(saisieFront.getHeureDebut());
-        saisie.setHeureFin(saisieFront.getHeureFin());
+        saisie.setHeureDebut(debut);
+        saisie.setHeureFin(fin);
         jourTravail.getSaisies().add(saisie);
         jourTravailRepository.save(jourTravail);
         return saisie.getIdSaisie();
