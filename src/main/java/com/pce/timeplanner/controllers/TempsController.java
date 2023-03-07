@@ -41,17 +41,22 @@ public class TempsController {
                 .findSemaineTravailByNumSemaineAndTemps(semaineNb, utilisateur.getTemps());
         if (semaineTravail==null){
             LocalDate premierJourSem = localDate.with(DayOfWeek.MONDAY);
-            semaineTravail = createEmptySemaine(username, premierJourSem);
+            semaineTravail = createEmptySemaine(username, premierJourSem, semaineNb);
         }
         return semaineTravail;
     }
     @PostMapping("/createEmptySemaine")
     public SemaineTravail createEmptySemaine(@RequestParam String username,
-                                   @RequestParam LocalDate localDate){
+                                   @RequestParam LocalDate localDate,
+                                   @RequestParam(required = false) int numSemaine){
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
         SemaineTravail semaineTravail = new SemaineTravail();
         semaineTravail.setIdSemaineTravail(UUID.randomUUID());
-        semaineTravail.setNumSemaine(SemaineTravail.getCurrentWeek());
+        if (numSemaine == 0){
+            semaineTravail.setNumSemaine(SemaineTravail.getCurrentWeek());
+        } else {
+            semaineTravail.setNumSemaine(numSemaine);
+        }
         //Créé 7 jours
         Set<JourTravail> jours = JourTravailService
                 .createSevenDaysFromDate(localDate, utilisateur);
