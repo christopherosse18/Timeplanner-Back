@@ -37,7 +37,8 @@ public class TempsController {
         LocalDate localDate = LocalDate.parse(date);
         int semaineNb = localDate.get(WeekFields.of(Locale.FRANCE).weekOfYear());
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username);
-        SemaineTravail semaineTravail = semaineTravailRepository.findSemaineTravailByNumSemaine(semaineNb);
+        SemaineTravail semaineTravail = semaineTravailRepository
+                .findSemaineTravailByNumSemaineAndTemps(semaineNb, utilisateur.getTemps());
         if (semaineTravail==null){
             LocalDate premierJourSem = localDate.with(DayOfWeek.MONDAY);
             semaineTravail = createEmptySemaine(username, premierJourSem);

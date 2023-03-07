@@ -9,12 +9,12 @@ import com.pce.timeplanner.repository.SemaineTravailRepository;
 import com.pce.timeplanner.repository.UtilisateurRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -27,7 +27,7 @@ public class JourTravailController {
     SaisieRepository saisieRepository;
 
     @PostMapping(path = "/{username}/{semaine}/addSaisie")
-    public UUID addSaisie(@PathVariable("username") String username,
+    public Saisie addSaisie(@PathVariable("username") String username,
                           @PathVariable("semaine") int semaine,
                           @RequestParam String idJour,
                           @RequestParam TypeSaisie typeSaisie,
@@ -37,31 +37,33 @@ public class JourTravailController {
                           /*@RequestBody Saisie saisieFront*/){
         JourTravail jourTravail = jourTravailRepository.getJourTravailByIdJourTravail(UUID.fromString(idJour));
         Saisie saisie = new Saisie();
-        if (idSaisie != null || idSaisie != ""){
-            saisie = saisieRepository.findByIdSaisie(UUID.fromString(idSaisie));
-            saisie.setTypeSaisie(typeSaisie);
-            saisie.setHeureDebut(debut);
-            saisie.setHeureFin(fin);
-        } else {
+        /**Création de la saisie **/
+        if (idSaisie == null || idSaisie.equals("")){
             saisie.setIdSaisie(UUID.randomUUID());
             saisie.setTypeSaisie(typeSaisie);
             saisie.setHeureDebut(debut);
             saisie.setHeureFin(fin);
             jourTravail.getSaisies().add(saisie);
-        }
-
-       /* if (debutNow){
-            saisie.setHeureDebut(LocalTime.now());
+        /**Update de la saisie **/
         } else {
+            saisie = saisieRepository.findByIdSaisie(UUID.fromString(idSaisie));
+            saisie.setTypeSaisie(typeSaisie);
             saisie.setHeureDebut(debut);
-        }
-        if (finNow){
-            saisie.setHeureFin(LocalTime.now());
-        } else {
             saisie.setHeureFin(fin);
-        }*/
+        }
 
         jourTravailRepository.save(jourTravail);
-        return saisie.getIdSaisie();
+
+        return jourTravail.getSaisies().stream().toList().get(0);
+    }
+
+    @DeleteMapping(value="/{username}/{semaine}/deleteSaisie")
+    public Map<String, String> deleteSaisie(@PathVariable("username") String username,
+                                            @PathVariable("semaine") int semaine,
+                                            @RequestParam String idSaisie) {
+        saisieRepository.deleteById(UUID.fromString(idSaisie));
+        HashMap<String, String> message = new HashMap<>();
+        message.put("Message", "Entrée "+idSaisie+" supprimée");
+        return message;
     }
 }

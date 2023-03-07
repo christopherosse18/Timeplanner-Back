@@ -1,5 +1,6 @@
 package com.pce.timeplanner.implementation;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pce.timeplanner.repository.JourTravailRepository;
 import jakarta.persistence.*;
@@ -31,6 +32,10 @@ public class SemaineTravail {
     Set<JourTravail> joursTravail;
     float heuresRealisees;
     float heuresDues;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JsonBackReference
+    @JoinColumn(name = "id_temps", referencedColumnName = "id_temps", nullable = true)
+    Temps temps;
 
     static public int getCurrentWeek(){
         return LocalDate.now().get(ChronoField.ALIGNED_WEEK_OF_YEAR);
